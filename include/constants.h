@@ -70,8 +70,29 @@ constexpr u8 BRAKE_SENSOR_PIN = 39;
 // [Add front wheel speed sensors and centerlock sensors]
 
 // Flexcan
-constexpr u32 FLEXCAN_BAUD_RATE = 250000;     //[UPDATE???]
+constexpr u32 FLEXCAN_BAUD_RATE = 250000;
 constexpr u32 FLEXCAN_MAX_MAILBOX = 16;      //[UPDATE???]
+
+//ECenterlock Odrive
+constexpr u8 ECENTERLOCK_ODRIVE_NODE_ID = 0x7; 
+
+//ECenterlock Actuator 
+// Actuator
+// NOTE: Pitch is distance / rotation
+constexpr float ECENTERLOCK_PITCH_MM = 2.54; // mm / rot
+constexpr float ECENTERLOCK_PITCH_CM = ECENTERLOCK_PITCH_MM / 10.0; // cm / rot
+
+constexpr float ECENTERLOCK_ENGAGE_POS_ROT = 4.0;   // ROT? 
+constexpr float ECENTERLOCK_ENGAGE_POS_CM =
+    ECENTERLOCK_ENGAGE_POS_ROT * ECENTERLOCK_PITCH_CM; // cm
+
+constexpr float ECENTERLOCK_HOME_VELOCITY = 4.0;     // rot / s 
+constexpr float ECENTERLOCK_HOME_TIMEOUT_MS = 4000;  // ms
+
+// constexpr float ACTUATOR_SLOW_INBOUND_REGION_ROT = 5.0;
+// constexpr float ACTUATOR_SLOW_INBOUND_VEL = 30.0;
+// constexpr float ACTUATOR_FAST_INBOUND_VEL = 60.0;
+
 
 // Logging
 // bytes_per_cycle * cycle_freq * time_to_flush_sd * safety_factor
