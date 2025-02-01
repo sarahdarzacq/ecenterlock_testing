@@ -57,6 +57,7 @@ u8 Actuator::home_encoder(u32 timeout_ms) {
   return HOME_SUCCCESS;
 }
 
+
 /** Instructs the ODrive object to set given velocity
  * @param velocity The velocity to set
  * @return 0 if successful

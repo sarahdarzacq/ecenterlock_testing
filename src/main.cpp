@@ -30,6 +30,14 @@ void on_ecenterlock_sensor() {
   ecenterlock_odrive.set_absolute_position(0.0);
 }
 
+void on_ecenterlock_engage() {
+
+}
+
+void on_ecenterlock_disengage() {
+  
+}
+
 void setup() {
   //init LEDs 
   pinMode(LED_1_PIN, OUTPUT);
@@ -42,6 +50,10 @@ void setup() {
   for (size_t i = 0; i < sizeof(BUTTON_PINS) / sizeof(BUTTON_PINS[0]); i++) {
     pinMode(BUTTON_PINS[i], INPUT_PULLUP);
   }
+  pinMode(ECENTERLOCK_SWITCH, INPUT_PULLUP);
+
+  constexpr u8 TESTING_ECENTERLOCK_ENGAGE_BUTTON = BUTTON_PINS[0];
+  constexpr u8 TESTING_ECENTERLOCK_DISENGAGE_BUTTON = BUTTON_PINS[1]; 
 
   // Setup RTC
   setSyncProvider(get_teensy3_time);
@@ -57,6 +69,8 @@ void setup() {
 
   // attack sensor interrupts
   attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor, FALLING);
+  attachInterrupt(TESTING_ECENTERLOCK_ENGAGE_BUTTON, on_ecenterlock_engage, FALLING);
+  attachInterrupt(TESTING_ECENTERLOCK_DISENGAGE_BUTTON, on_ecenterlock_disengage, FALLING); 
 
   // init CAN bus
   flexcan_bus.begin();

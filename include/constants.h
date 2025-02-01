@@ -25,6 +25,7 @@ constexpr float INCH_PER_FEET = 12.0;   // inch / feet
 constexpr u8 ODRIVE_NODE_ID = 0x3;                                    
 constexpr float ODRIVE_VEL_LIMIT = 80.0;        // rot / s
 constexpr float ODRIVE_CURRENT_SOFT_MAX = 30.0; // A
+constexpr float ODRIVE_TORQUE_LIMIT = 0.1; // Nm 
 
 // Actuator
 // NOTE: Pitch is distance / rotation
@@ -71,6 +72,8 @@ constexpr u8 BRAKE_SENSOR_PIN = 39;
 constexpr u8 L_WHEEL_GEARTOOTH_SENSOR_PIN = 14;
 constexpr u8 R_WHEEL_GEARTOOTH_SENSOR_PIN = 13; 
 
+constexpr u8 ECENTERLOCK_SWITCH = 24; 
+
 // Flexcan
 constexpr u32 FLEXCAN_BAUD_RATE = 250000;
 constexpr u32 FLEXCAN_MAX_MAILBOX = 16;      //[UPDATE???]
@@ -90,6 +93,8 @@ constexpr float ECENTERLOCK_ENGAGE_POS_CM =
 
 constexpr float ECENTERLOCK_HOME_VELOCITY = 4.0;     // rot / s 
 constexpr float ECENTERLOCK_HOME_TIMEOUT_MS = 4000;  // ms
+
+constexpr float ECENTERLOCK_TORQUE = 0.0899; // Nm 
 
 // constexpr float ACTUATOR_SLOW_INBOUND_REGION_ROT = 5.0;
 // constexpr float ACTUATOR_SLOW_INBOUND_VEL = 30.0;
