@@ -22,7 +22,7 @@ constexpr float FEET_PER_MILE = 5280.0; // feet / mile
 constexpr float INCH_PER_FEET = 12.0;   // inch / feet
 
 // ODrive
-constexpr u8 ODRIVE_NODE_ID = 0x3;                                           //[Update??]
+constexpr u8 ODRIVE_NODE_ID = 0x3;                                    
 constexpr float ODRIVE_VEL_LIMIT = 80.0;        // rot / s
 constexpr float ODRIVE_CURRENT_SOFT_MAX = 30.0; // A
 
@@ -63,11 +63,13 @@ constexpr u8 BUTTON_PINS[] = {2, 3, 4, 5, 6};
 
 constexpr u8 ENGINE_SENSOR_PIN = 38; 
 constexpr u8 GEARTOOTH_SENSOR_PIN = 37; 
+constexpr u8 ECENTERLOCK_SENSOR_PIN = 27; 
 
 constexpr u8 THROTTLE_SENSOR_PIN = 40;
 constexpr u8 BRAKE_SENSOR_PIN = 39;
 
-// [Add front wheel speed sensors and centerlock sensors]
+constexpr u8 L_WHEEL_GEARTOOTH_SENSOR_PIN = 14;
+constexpr u8 R_WHEEL_GEARTOOTH_SENSOR_PIN = 13; 
 
 // Flexcan
 constexpr u32 FLEXCAN_BAUD_RATE = 250000;
@@ -92,7 +94,6 @@ constexpr float ECENTERLOCK_HOME_TIMEOUT_MS = 4000;  // ms
 // constexpr float ACTUATOR_SLOW_INBOUND_REGION_ROT = 5.0;
 // constexpr float ACTUATOR_SLOW_INBOUND_VEL = 30.0;
 // constexpr float ACTUATOR_FAST_INBOUND_VEL = 60.0;
-
 
 // Logging
 // bytes_per_cycle * cycle_freq * time_to_flush_sd * safety_factor
