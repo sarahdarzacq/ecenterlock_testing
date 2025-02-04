@@ -8,7 +8,7 @@
  * Constructor for the actuator
  * @param odrive Pointer to ODrive object
  */
-Ecenterlock::Ecenterlock(ODrive *odrive) : odrive(odrive) {}
+Ecenterlock::Ecenterlock(ODrive *odrive) : odrive(odrive), current_state(IDLE) {}
 
 /**
  * Initializes connection to physical ODrive
@@ -21,6 +21,8 @@ u8 Ecenterlock::init() { return 0; }
  * @return 0 if successful
  */
 u8 Ecenterlock::home_ecenterlock(u32 timeout_ms) {
+  change_state(HOMING);
+
   //start odrive as a closed loop controller
   if (odrive->set_axis_state(ODrive::AXIS_STATE_CLOSED_LOOP_CONTROL) != 0) {
     return HOME_CAN_ERROR;
@@ -36,11 +38,14 @@ u8 Ecenterlock::home_ecenterlock(u32 timeout_ms) {
       }
       delay(100);
     }
-
-    set_torque(0); 
-    odrive->set_absolute_position(0);
-    return HOME_SUCCESS; 
+  } else {
+    //[TO DO] perhaps move back a bit then in
   }
+
+  set_torque(0); 
+  odrive->set_absolute_position(0);
+  change_state(DISENGAGED_2WD);
+  return HOME_SUCCESS; 
 }
 
 u8 Ecenterlock::set_torque(float torque) {

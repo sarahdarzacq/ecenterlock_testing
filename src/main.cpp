@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <odrive.h>
-#include <actuator.h>
+#include <ecenterlock.h>
 #include <cmath>
 #include <FlexCAN_T4.h> 
 #include <TimeLib.h>
@@ -10,7 +10,7 @@ constexpr bool wait_for_can = true;
 // global objects
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> flexcan_bus;
 ODrive ecenterlock_odrive(&flexcan_bus, ECENTERLOCK_ODRIVE_NODE_ID);
-Actuator ecenterlock_actuator(&ecenterlock_odrive);
+Ecenterlock ecenterlock(&ecenterlock_odrive);
 
 // global functions
 time_t get_teensy3_time() { return Teensy3Clock.get(); }
@@ -31,11 +31,16 @@ void on_ecenterlock_sensor() {
 }
 
 void on_ecenterlock_engage() {
-
+  Ecenterlock::State ecenterlock_state = ecenterlock.get_state(); 
+  if (ecenterlock_state == Ecenterlock::DISENGAGED_2WD) {
+      // TO DO: Keep working on this! 
+  } else {
+    Serial.printf("Error: ECenterlock is not in the correct State to engage"); 
+  }
 }
 
 void on_ecenterlock_disengage() {
-  
+
 }
 
 void setup() {
@@ -52,6 +57,7 @@ void setup() {
   }
   pinMode(ECENTERLOCK_SWITCH, INPUT_PULLUP);
 
+  // just to use with the test bench 
   constexpr u8 TESTING_ECENTERLOCK_ENGAGE_BUTTON = BUTTON_PINS[0];
   constexpr u8 TESTING_ECENTERLOCK_DISENGAGE_BUTTON = BUTTON_PINS[1]; 
 
@@ -67,7 +73,7 @@ void setup() {
   pinMode(L_WHEEL_GEARTOOTH_SENSOR_PIN, INPUT);
   pinMode(R_WHEEL_GEARTOOTH_SENSOR_PIN, INPUT);
 
-  // attack sensor interrupts
+  // attach sensor interrupts
   attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor, FALLING);
   attachInterrupt(TESTING_ECENTERLOCK_ENGAGE_BUTTON, on_ecenterlock_engage, FALLING);
   attachInterrupt(TESTING_ECENTERLOCK_DISENGAGE_BUTTON, on_ecenterlock_disengage, FALLING); 
@@ -98,10 +104,19 @@ void setup() {
   }
 
   // this doesn't actually do anything --> [SHOULD IT?]
-  u8 ecenterlock_actuator_status_code = ecenterlock_actuator.init();
-  if (ecenterlock_actuator_status_code != 0) {
+  u8 ecenterlock_status_code = ecenterlock.init();
+  if (ecenterlock_status_code != 0) {
     Serial.printf("Error: ECenterlock Actuator failed to initialize with error %d\n",
-                  ecenterlock_actuator_status_code);
+                  ecenterlock_status_code);
+  }
+
+  // homin sequence for ecenterlock
+  digitalWrite(LED_2_PIN, HIGH); 
+  ecenterlock_status_code = ecenterlock.home_ecenterlock(ECENTERLOCK_HOME_TIMEOUT_MS);
+  if (ecenterlock_status_code != 0) {
+    Serial.printf("Error: ECenterlock Actuator failed to home with error %d\n", ecenterlock_status_code); 
+  } else {
+    digitalWrite(LED_2_PIN, LOW);
   }
 
 }
