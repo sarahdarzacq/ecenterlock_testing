@@ -40,7 +40,17 @@ void on_ecenterlock_engage() {
 }
 
 void on_ecenterlock_disengage() {
+  
+}
 
+void on_ecenterlock_sensor_on() {
+  write_all_leds(HIGH); 
+  Serial.printf("Sensor On: %ld", get_teensy3_time()); 
+}
+
+void on_ecenterlock_sensor_off() {
+  write_all_leds(LOW); 
+  Serial.printf("Sensor Off: %ld", get_teensy3_time());
 }
 
 void setup() {
@@ -74,9 +84,13 @@ void setup() {
   pinMode(R_WHEEL_GEARTOOTH_SENSOR_PIN, INPUT);
 
   // attach sensor interrupts
-  attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor, FALLING);
-  attachInterrupt(TESTING_ECENTERLOCK_ENGAGE_BUTTON, on_ecenterlock_engage, FALLING);
-  attachInterrupt(TESTING_ECENTERLOCK_DISENGAGE_BUTTON, on_ecenterlock_disengage, FALLING); 
+  //attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor, FALLING);
+  //attachInterrupt(TESTING_ECENTERLOCK_ENGAGE_BUTTON, on_ecenterlock_engage, FALLING);
+  //attachInterrupt(TESTING_ECENTERLOCK_DISENGAGE_BUTTON, on_ecenterlock_disengage, FALLING); 
+
+  //for geartooth sensor testing
+  attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor_off, FALLING); 
+  attachInterrupt(ECENTERLOCK_SENSOR_PIN, on_ecenterlock_sensor_on, RISING);
 
   // init CAN bus
   flexcan_bus.begin();
