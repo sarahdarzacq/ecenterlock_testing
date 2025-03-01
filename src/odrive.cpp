@@ -126,6 +126,7 @@ u8 ODrive::request_bus_voltage_current() {
 
 u32 ODrive::get_time_since_heartbeat_ms() {
   return millis() - last_heartbeat_ms;
+  printf(last_heartbeat_ms + "\n");
 }
 
 u32 ODrive::get_axis_error() { return axis_error; }
@@ -162,7 +163,7 @@ u8 ODrive::clear_errors() {
 
 /**
  * Setters for the various class ODrive class members that are updated by CAN
- * messages.
+ * messages
  */
 u8 ODrive::set_axis_state(u32 requested_state) {
   u8 buf[8] = {0};

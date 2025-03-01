@@ -24,6 +24,11 @@ public:
   static const u8 SET_TORQUE_OUT_LIMIT_SWITCH_ERROR = 1;
   static const u8 SET_TORQUE_CAN_ERROR = 2;
 
+  static const u8 SET_VELOCITY_SUCCCESS = 0;
+  static const u8 SET_VELOCITY_IN_LIMIT_SWITCH_ERROR = 1;
+  static const u8 SET_VELOCITY_OUT_LIMIT_SWITCH_ERROR = 1;
+  static const u8 SET_VELOCITY_CAN_ERROR = 2;
+
   static const u8 HOME_SUCCESS = 0;
   static const u8 HOME_CAN_ERROR = 1;
   static const u8 HOME_TIMEOUT_ERROR = 2;
@@ -34,13 +39,15 @@ public:
   u8 home_ecenterlock(u32 timeout_ms);
   u8 change_state(State new_state) { current_state = new_state; }
 
-  u8 set_torque(float velocity);
+  u8 set_torque(float torque);
+  u8 set_velocity(float velocity);
 
   bool get_outbound_limit();
   State get_state() { return current_state; }
 
 private:
-  bool torque_mode = true;
+  bool torque_mode;
+  bool velocity_mode = true; 
   ODrive *odrive;
   State current_state; 
 };

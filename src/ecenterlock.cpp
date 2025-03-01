@@ -48,6 +48,36 @@ u8 Ecenterlock::home_ecenterlock(u32 timeout_ms) {
   return HOME_SUCCESS; 
 }
 
+u8 Ecenterlock::set_velocity(float velocity) {
+  if (odrive->get_axis_state() == ODrive::AXIS_STATE_IDLE) {
+    odrive->set_axis_state(ODrive::AXIS_STATE_CLOSED_LOOP_CONTROL);
+  }
+
+  if (odrive->set_controller_mode(ODrive::CONTROL_MODE_VELOCITY_CONTROL,
+                                  ODrive::INPUT_MODE_VEL_RAMP) != 0) {
+    return SET_VELOCITY_CAN_ERROR;
+  }
+
+  // if (get_inbound_limit() && velocity > 0) {
+  //   odrive->set_input_vel(0, 0);
+  //   return SET_VELOCITY_IN_LIMIT_SWITCH_ERROR;
+  // }
+
+  // if (get_outbound_limit() && velocity < 0) {
+  //   odrive->set_input_vel(0, 0);
+  //   return SET_VELOCITY_OUT_LIMIT_SWITCH_ERROR;
+  // }
+
+  velocity = CLAMP(velocity, -ODRIVE_VEL_LIMIT, ODRIVE_VEL_LIMIT);
+  if (odrive->set_input_vel(velocity, 0) != 0) {
+    return SET_VELOCITY_CAN_ERROR;
+  }
+
+  velocity_mode = true;
+
+  return SET_VELOCITY_SUCCCESS;
+}
+
 u8 Ecenterlock::set_torque(float torque) {
   if (odrive->get_axis_state() == ODrive::AXIS_STATE_IDLE) {
     odrive->set_axis_state(ODrive::AXIS_STATE_CLOSED_LOOP_CONTROL);
@@ -57,10 +87,10 @@ u8 Ecenterlock::set_torque(float torque) {
     return SET_TORQUE_CAN_ERROR; 
   }
 
-  if(get_outbound_limit() && torque > 0) {
-    odrive->set_input_torque(0); 
-    return SET_TORQUE_OUT_LIMIT_SWITCH_ERROR; 
-  }
+  // if(get_outbound_limit() && torque > 0) {
+  //   odrive->set_input_torque(0); 
+  //   return SET_TORQUE_OUT_LIMIT_SWITCH_ERROR; 
+  // }
 
   torque = CLAMP(torque, -ODRIVE_TORQUE_LIMIT, ODRIVE_TORQUE_LIMIT); 
   if (odrive->set_input_torque(torque) != 0) {
