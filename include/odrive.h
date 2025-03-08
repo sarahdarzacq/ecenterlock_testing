@@ -70,6 +70,7 @@ public:
   static const u32 CAN_GET_TORQUES = 0x01c;
   static const u32 CAN_GET_POWERS = 0x01d;
   static const u32 CAN_ENTER_DFU_MODE = 0x01f;
+  static const u32 CAN_GET_NONSTANDARD_POS_REL = 0x1d1; 
 
   static const u8 INIT_SUCCESS = 0;
   static const u8 INIT_CAN_ERROR = 1;
@@ -104,6 +105,9 @@ public:
   float get_iq_measured();
   float get_bus_voltage();
   float get_bus_current();
+  float get_pos_rel(); 
+
+  u8 request_nonstand_pos_rel();
 
   // Commands
   u8 reboot();
@@ -138,6 +142,7 @@ private:
   float vel_estimate, pos_estimate;
   float iq_setpoint, iq_measured;
   float bus_voltage, bus_current;
+  float pos_rel; 
 
   u8 send_command(u32 cmd_id, bool remote, u8 buf[8]);
   u8 send_empty_command(u32 cmd_id, bool remote);

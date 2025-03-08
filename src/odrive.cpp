@@ -48,6 +48,9 @@ u8 ODrive::send_command(u32 cmd_id, bool remote, u8 buf[8]) {
   return ODrive::CMD_SUCCESS;
 }
 
+
+  
+
 /**
  * @brief Send a command with no particular data (typically used for
  * requesters)
@@ -99,6 +102,10 @@ void ODrive::parse_message(const CAN_message_t &msg) {
     memcpy(&bus_voltage, msg.buf, 4);
     memcpy(&bus_current, msg.buf + 4, 4);
     break;
+  case CAN_TXSDO: 
+    u16 endpoint_id; 
+    memcpy(&pos_rel, msg.buf + 4, 4); 
+    memcpy(&endpoint_id, msg.buf + 1, 2);
   }
 }
 
@@ -107,6 +114,12 @@ void ODrive::parse_message(const CAN_message_t &msg) {
  * interrupt that calls ODrive.parse_message when the message is recieved,
  * meaning that class members won't be updated immediately.
  */
+
+u8 ODrive::request_nonstand_pos_rel() {
+  u8 buf[8] = {0, 0xCA, 0x01, 0, 0, 0, 0, 0};
+  return send_command(CAN_RXSDO, false, buf); 
+}
+
 u8 ODrive::request_errors() { return send_empty_command(CAN_GET_ERRORS, true); }
 
 u8 ODrive::request_iq() { return send_empty_command(CAN_GET_IQ, true); }
@@ -150,6 +163,8 @@ float ODrive::get_iq_measured() { return iq_measured; }
 float ODrive::get_bus_voltage() { return bus_voltage; }
 
 float ODrive::get_bus_current() { return bus_current; }
+
+float ODrive::get_pos_rel() { return pos_rel; }
 
 /**
  * Commands for the ODrive.

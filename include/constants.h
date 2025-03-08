@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#ifndef CONSTANTS_HSTATE
+#define CONSTANTS_HSTATE
 #include <macros.h>
 #include <math.h>
 #include <stddef.h>
@@ -22,9 +22,9 @@ constexpr float FEET_PER_MILE = 5280.0; // feet / mile
 constexpr float INCH_PER_FEET = 12.0;   // inch / feet
 
 // ODrive
-constexpr u8 ODRIVE_NODE_ID = 0x3;                                    
+constexpr u8 ODRIVE_NODE_ID = 0x7;                                    
 constexpr float ODRIVE_VEL_LIMIT = 80.0;        // rot / s
-constexpr float ODRIVE_CURRENT_SOFT_MAX = 30.0; // A
+constexpr float ODRIVE_CURRENT_SOFT_MAX = 10.0; // A
 constexpr float ODRIVE_TORQUE_LIMIT = 0.1; // Nm 
 
 // Actuator
@@ -82,7 +82,7 @@ constexpr u32 FLEXCAN_MAX_MAILBOX = 16;      //[UPDATE???]
 constexpr u8 ECENTERLOCK_ODRIVE_NODE_ID = 0x7; 
 
 //ECenterlock Actuator 
-// Actuator
+
 // NOTE: Pitch is distance / rotation
 constexpr float ECENTERLOCK_PITCH_MM = 2.54; // mm / rot
 constexpr float ECENTERLOCK_PITCH_CM = ECENTERLOCK_PITCH_MM / 10.0; // cm / rot
@@ -90,16 +90,16 @@ constexpr float ECENTERLOCK_PITCH_CM = ECENTERLOCK_PITCH_MM / 10.0; // cm / rot
 constexpr float ECENTERLOCK_ENGAGE_POS_ROT = 4.0;   // ROT? 
 constexpr float ECENTERLOCK_ENGAGE_POS_CM =
     ECENTERLOCK_ENGAGE_POS_ROT * ECENTERLOCK_PITCH_CM; // cm
+ 
+constexpr float ECENTERLOCK_ENGAGED_POSITION = 2.322124; 
+constexpr float ECENTERLOCK_VELOCITY = 6;     // rot / s 
 
-constexpr float ECENTERLOCK_HOME_VELOCITY = 4.0;     // rot / s 
+constexpr float ECENTERLOCK_HOME_VEL = 6;
 constexpr float ECENTERLOCK_HOME_TIMEOUT_MS = 4000;  // ms
+
 
 constexpr float ECENTERLOCK_TORQUE = 0.0899; // Nm 
 constexpr u8 NUM_TRIES_ECENTERLOCK = 5; 
-
-// constexpr float ACTUATOR_SLOW_INBOUND_REGION_ROT = 5.0;
-// constexpr float ACTUATOR_SLOW_INBOUND_VEL = 30.0;
-// constexpr float ACTUATOR_FAST_INBOUND_VEL = 60.0;
 
 // Logging
 // bytes_per_cycle * cycle_freq * time_to_flush_sd * safety_factor

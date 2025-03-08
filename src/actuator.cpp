@@ -23,6 +23,7 @@ u8 Actuator::init() { return 0; }
 u8 Actuator::home_encoder(u32 timeout_ms) {
   // TODO: Add timeout
   if (odrive->set_axis_state(ODrive::AXIS_STATE_CLOSED_LOOP_CONTROL) != 0) {
+    Serial.printf("Problem\n"); 
     return HOME_CAN_ERROR;
   }
 
