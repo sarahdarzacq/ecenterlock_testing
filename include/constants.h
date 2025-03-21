@@ -72,7 +72,8 @@ constexpr u8 BRAKE_SENSOR_PIN = 39;
 constexpr u8 L_WHEEL_GEARTOOTH_SENSOR_PIN = 14;
 constexpr u8 R_WHEEL_GEARTOOTH_SENSOR_PIN = 13; 
 
-constexpr u8 ECENTERLOCK_SWITCH = 24; 
+constexpr u8 ECENTERLOCK_SWITCH_ENGAGE = 24; 
+constexpr u8 ECENTERLOCK_SWITCH_DISENGAGE = 25; 
 
 // Flexcan
 constexpr u32 FLEXCAN_BAUD_RATE = 250000;
@@ -91,7 +92,7 @@ constexpr float ECENTERLOCK_ENGAGE_POS_ROT = 4.0;   // ROT?
 constexpr float ECENTERLOCK_ENGAGE_POS_CM =
     ECENTERLOCK_ENGAGE_POS_ROT * ECENTERLOCK_PITCH_CM; // cm
  
-constexpr float ECENTERLOCK_ENGAGED_POSITION = 2.322124; 
+constexpr float ECENTERLOCK_ENGAGED_POSITION = 2.1; 
 constexpr float ECENTERLOCK_VELOCITY = 6;     // rot / s 
 
 constexpr float ECENTERLOCK_HOME_VEL = 6;

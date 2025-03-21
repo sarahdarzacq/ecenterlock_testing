@@ -32,17 +32,16 @@ public:
 
   Ecenterlock(ODrive *odrive);
 
-  u8 init();
   u8 home(u32 timeout_ms);
-  u8 change_state(State new_state) { current_state = new_state; }
+  void change_state(State new_state) { current_state = new_state; }
 
   u8 set_torque(float torque);
   u8 set_velocity(float velocity);
-  u8 set_position(float position) { this->position = position; }
-  u8 set_prev_position(float position) { prev_position = position; }
-  u8 set_engage(bool engage) { this->engage = engage; }
-  u8 set_disengage(bool disengage) { this->disengage = disengage; }
-  u8 set_num_tries(bool tries) { num_tries = tries; }
+  void set_position(float position) { this->position = position; }
+  void set_prev_position(float position) { prev_position = position; }
+  void set_engage(bool engage) { this->engage = engage; }
+  void set_disengage(bool disengage) { this->disengage = disengage; }
+  void set_num_tries(bool tries) { num_tries = tries; }
 
   bool get_outbound_limit();
   State get_state() { return current_state; }

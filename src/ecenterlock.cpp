@@ -11,12 +11,6 @@
 Ecenterlock::Ecenterlock(ODrive *odrive) : odrive(odrive), current_state(UNHOMED), engage(false), disengage(false), num_tries(0) {}
 
 /**
- * Initializes connection to physical ODrive
- * @return 0 if successful
- */
-u8 Ecenterlock::init() { return 0; }
-
-/**
  * Instructs ODrive to attempt ECenterlock homing
  * @return 0 if successful
  */
@@ -50,14 +44,14 @@ u8 Ecenterlock::home(u32 timeout_ms) {
     
     prev_pos = cur_pos; 
     cur_pos = odrive->get_pos_rel();
-    Serial.printf("%f\n", cur_pos);
+    Serial.printf("%f, %d\n", cur_pos, digitalRead(ECENTERLOCK_SENSOR_PIN));
   }
 
   set_velocity(0); 
 
-  if (odrive->set_axis_state(ODrive::AXIS_STATE_IDLE) != 0) {
-    return HOME_CAN_ERROR; 
-  }
+  // if (odrive->set_axis_state(ODrive::AXIS_STATE_IDLE) != 0) {
+  //   return HOME_CAN_ERROR; 
+  // }
 
   position = 0; 
   pos_rel_offset = cur_pos; 
@@ -65,6 +59,7 @@ u8 Ecenterlock::home(u32 timeout_ms) {
   Serial.printf("ECenterlock Homed with Offset %f\n", pos_rel_offset); 
 
   change_state(DISENGAGED_2WD); 
+  Serial.printf("Ecenterlock Homed!\n");
   return HOME_SUCCESS; 
 }
 
